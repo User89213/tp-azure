@@ -9,25 +9,52 @@ const humidity = document.getElementById('humidity');
 const windSpeed = document.getElementById('windSpeed');
 const errorMessage = document.getElementById('errorMessage');
 
-// Fonction pour récupérer les données météo de l'API Open-Meteo
-async function getWeather(city) {
-    // URL de l'API Open-Meteo
-    const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=48.8566&longitude=2.3522&hourly=temperature_2m,precipitation_sum,wind_speed_10m&current_weather=true`;
+// Fonction pour récupérer les coordonnées GPS de la ville via Nominatim (OpenStreetMap)
+async function getCityCoordinates(city) {
+    const geocodeUrl = `https://nominatim.openstreetmap.org/search?q=${city}&format=json&addressdetails=1&limit=1`;
 
     try {
+        const response = await fetch(geocodeUrl);
+        const data = await response.json();
+        
+        if (data.length === 0) {
+            throw new Error('Ville non trouvée');
+        }
+
+        const latitude = data[0].lat;
+        const longitude = data[0].lon;
+
+        return { latitude, longitude };
+    } catch (error) {
+        throw new Error('Erreur lors de la récupération des coordonnées');
+    }
+}
+
+// Fonction pour récupérer les données météo de l'API Open-Meteo
+async function getWeather(city) {
+    try {
+        // Obtenir les coordonnées GPS de la ville
+        const { latitude, longitude } = await getCityCoordinates(city);
+        
+        // Construire l'URL de l'API Open-Meteo avec les coordonnées GPS
+        const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`;
+
         const response = await fetch(apiUrl);
         if (!response.ok) {
-            throw new Error('Erreur de chargement');
+            throw new Error('Erreur de chargement de la météo');
         }
+
         const data = await response.json();
 
-        // Extraire les données de la réponse
+        // Extraire les données météo
         const weatherData = data.current_weather;
-        cityName.textContent = "Paris, FR"; // Ville fixée pour l'exemple
+        cityName.textContent = city;
         temperature.textContent = `${weatherData.temperature} °C`;
-        description.textContent = `Conditions météorologiques : ${weatherData.weathercode}`;
-        humidity.textContent = `Humidité : ${data.hourly.precipitation_sum}%`; // Modèle simplifié
-        windSpeed.textContent = `Vitesse du vent : ${weatherData.wind_speed} km/h`;
+        description.textContent = `Conditions : Code météo ${weatherData.weathercode}`;
+        windSpeed.textContent = `Vitesse du vent : ${weatherData.windspeed} km/h`;
+
+        // Afficher l'humidité seulement si elle existe (non incluse ici, donc on la cache)
+        humidity.textContent = "Humidité : Non disponible";
 
         // Afficher les résultats
         weatherResult.classList.remove('hidden');
@@ -36,8 +63,10 @@ async function getWeather(city) {
         // Gérer les erreurs
         weatherResult.classList.add('hidden');
         errorMessage.classList.remove('hidden');
+        console.error(error.message);
     }
 }
+
 
 // Ajouter un écouteur d'événements pour le bouton de recherche
 searchBtn.addEventListener('click', () => {
