@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Météo</title>
+    <!-- Intégration de TailwindCSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-100 text-gray-800">
+    <div class="max-w-md mx-auto my-10 p-6 bg-white shadow-lg rounded-lg">
+        <h1 class="text-3xl font-semibold text-center text-blue-600">Météo en temps réel</h1>
+        
+        <!-- Formulaire de recherche -->
+        <div class="mt-6">
+            <input type="text" id="cityInput" placeholder="Entrez une ville" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <button id="searchBtn" class="mt-3 w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-700">Rechercher</button>
+        </div>
+        
+        <!-- Affichage des résultats -->
+        <div id="weatherResult" class="mt-6 hidden">
+            <h2 id="cityName" class="text-2xl font-semibold text-center"></h2>
+            <p id="temperature" class="text-center text-lg font-medium"></p>
+            <p id="description" class="text-center text-sm text-gray-600"></p>
+            <p id="humidity" class="text-center text-sm text-gray-600"></p>
+            <p id="windSpeed" class="text-center text-sm text-gray-600"></p>
+        </div>
+
+        <!-- Affichage d'erreur -->
+        <div id="errorMessage" class="mt-6 text-center text-red-500 hidden">
+            <p>Ville non trouvée ou erreur de chargement.</p>
+        </div>
+    </div>
+
+    <!-- Script JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
