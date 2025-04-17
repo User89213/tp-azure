@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,32 +8,46 @@
     <!-- Intégration de TailwindCSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-blue-100 text-gray-800">
-    <div class="max-w-md mx-auto my-10 p-6 bg-white shadow-lg rounded-lg">
-        <h1 class="text-3xl font-semibold text-center text-blue-600">Météo en temps réel</h1>
+
+<body class="bg-gradient-to-r from-blue-400 via-purple-300 to-pink-200 font-sans overflow-hidden">
+    <div class="max-w-md mx-auto my-10 p-8 bg-white shadow-xl rounded-xl border-2 border-gray-200 transition-all duration-500 ease-in-out transform hover:scale-105">
+        <h1 class="text-4xl font-extrabold text-center text-blue-700 mb-6 animate__animated animate__fadeInUp">Météo en temps réel 🌦️</h1>
 
         <!-- Formulaire de recherche de ville -->
-        <div class="mt-6">
-            <input type="text" id="cityInput" placeholder="Entrez une ville" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <button id="searchBtn" class="mt-3 w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-700">Rechercher</button>
+        <div class="space-y-4 animate__animated animate__fadeInUp animate__delay-1s">
+            <input type="text" id="cityInput" placeholder="Entrez une ville" class="w-full p-4 border-2 border-blue-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 transition-all duration-300 ease-in-out shadow-md" />
+            <button id="searchBtn" class="w-full p-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:bg-gradient-to-r hover:from-indigo-600 hover:to-blue-500 transition-all duration-300 ease-in-out transform hover:scale-105">
+                🔍 Rechercher
+            </button>
         </div>
 
         <!-- Affichage des résultats météo -->
-        <div id="weatherResult" class="mt-6 hidden">
-            <h2 id="cityName" class="text-2xl font-semibold text-center"></h2>
-            <p id="temperature" class="text-center text-lg font-medium"></p>
-            <p id="description" class="text-center text-sm text-gray-600"></p>
-            <p id="humidity" class="text-center text-sm text-gray-600"></p>
-            <p id="windSpeed" class="text-center text-sm text-gray-600"></p>
+        <div id="weatherResult" class="mt-8 hidden text-center animate__animated animate__fadeInUp animate__delay-2s">
+            <h2 id="cityName" class="text-3xl font-semibold text-blue-800 mb-2"></h2>
+            <p id="temperature" class="text-5xl font-bold text-yellow-500 mb-4 flex justify-center items-center">
+                🌡️ <span class="ml-2" id="tempValue"></span>
+            </p>
+            <p id="description" class="text-xl text-gray-700 mb-3 flex justify-center items-center">
+                🌤️ <span class="ml-2" id="weatherDescription"></span>
+            </p>
+            <div class="flex justify-center items-center space-x-4 mt-4">
+                <p id="humidity" class="text-sm text-gray-500">
+                    💧 Humidité: <span id="humidityValue"></span>%
+                </p>
+                <p id="windSpeed" class="text-sm text-gray-500">
+                    🌬️ Vent: <span id="windSpeedValue"></span> km/h
+                </p>
+            </div>
         </div>
 
         <!-- Affichage d'erreur -->
-        <div id="errorMessage" class="mt-6 text-center text-red-500 hidden">
-            <p>Ville non trouvée ou erreur de chargement. Veuillez réessayer.</p>
+        <div id="errorMessage" class="mt-8 text-center text-red-600 font-semibold hidden animate__animated animate__fadeIn animate__delay-3s">
+            <p>❌ Ville non trouvée ou erreur de chargement. Veuillez réessayer.</p>
         </div>
     </div>
 
     <!-- Script JavaScript -->
     <script src="app.js"></script>
 </body>
+
 </html>
